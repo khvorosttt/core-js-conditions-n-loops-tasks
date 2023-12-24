@@ -365,21 +365,17 @@ function sortByAsc(/* arr */) {
  *  'qwerty', 3 => 'qetwry' => 'qtrewy' => 'qrwtey'
  */
 function shuffleChar(str, iterations) {
-  if (iterations === 0) {
-    return str;
+  let newStr = str;
+  for (let i = 0; i < iterations; i += 1) {
+    let tempOdd = '';
+    let tempEven = '';
+    for (let j = 0; j < newStr.length; j += 2) {
+      tempEven += newStr[j];
+      tempOdd += newStr[j + 1];
+    }
+    newStr = tempEven + tempOdd;
   }
-  const tempOdd = [];
-  let odd = 0;
-  const tempEven = [];
-  let even = 0;
-  for (let j = 0; j < str.length; j += 2) {
-    tempEven[even] = str[j];
-    even += 1;
-    tempOdd[odd] = str[j + 1];
-    odd += 1;
-  }
-  const newStr = [...tempEven, ...tempOdd];
-  return shuffleChar(String(newStr).replaceAll(',', ''), iterations - 1);
+  return newStr;
 }
 
 /**
