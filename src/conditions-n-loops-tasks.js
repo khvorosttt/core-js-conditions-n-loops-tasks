@@ -546,13 +546,22 @@ function getNearestBigger(number) {
   const temp = numberArr[index];
   numberArr[index] = numberArr[indexMinMax];
   numberArr[indexMinMax] = temp;
-  const resultArr = [
-    ...numberArr.slice(0, index + 1),
-    ...sortByAscFind(numberArr.slice(index + 1)),
-  ];
+  for (let i = index + 1; i < numberArr.length - 1; i += 1) {
+    let min = numberArr[i];
+    let indexMin = i;
+    for (let j = i + 1; j < numberArr.length; j += 1) {
+      if (min > numberArr[j]) {
+        min = numberArr[j];
+        indexMin = j;
+      }
+    }
+    const tempMin = numberArr[i];
+    numberArr[i] = numberArr[indexMin];
+    numberArr[indexMin] = tempMin;
+  }
   let result = 0;
-  for (let i = 0; i < resultArr.length; i += 1) {
-    result += 10 ** i * resultArr[resultArr.length - 1 - i];
+  for (let i = 0; i < numberArr.length; i += 1) {
+    result += 10 ** i * numberArr[numberArr.length - 1 - i];
   }
   return result;
 }
