@@ -466,42 +466,26 @@ function sortByAsc(arr) {
  *  'qwerty', 3 => 'qetwry' => 'qtrewy' => 'qrwtey'
  */
 function shuffleChar(str, iterations) {
-  let newStr = [...str];
-  const middle = Math.floor(str.length / 2);
-  for (let i = 0; i < iterations; i += 1) {
-    const tempOdd = [];
-    const tempEven = [];
-    const tempOddMiddle = [];
-    const tempEvenMiddle = [];
-    let k = 0;
-    if (middle % 2 === 0) {
-      for (let j = 0; j < middle; j += 2) {
-        tempEven[k] = newStr[j];
-        tempOdd[k] = newStr[j + 1];
-        tempEvenMiddle[k] = newStr[middle + j];
-        tempOddMiddle[k] = newStr[middle + j + 1];
-        k += 1;
+  let newStr = str;
+  let iter = iterations;
+  for (let i = 1; i <= iter; i += 1) {
+    let tempOdd = '';
+    let tempEven = '';
+    for (let j = 0; j < newStr.length; j += 1) {
+      if (j % 2 === 0) {
+        tempEven += newStr[j];
+      } else {
+        tempOdd += newStr[j];
       }
-      newStr = [...tempEven, ...tempEvenMiddle, ...tempOdd, ...tempOddMiddle];
-    } else {
-      for (let j = 0; j < middle; j += 2) {
-        if (j !== middle - 1) {
-          tempEven[k] = newStr[j];
-          tempOdd[k] = newStr[j + 1];
-          tempOddMiddle[k] = newStr[middle + j];
-          tempEvenMiddle[k] = newStr[middle + j + 1];
-        } else {
-          tempEven[k] = newStr[j];
-          tempOddMiddle[k] = newStr[middle + j];
-        }
-        k += 1;
-      }
-      newStr = [...tempEven, ...tempEvenMiddle, ...tempOdd, ...tempOddMiddle];
+    }
+    newStr = tempEven + tempOdd;
+    if (str === newStr) {
+      iter %= i;
+      i = 0;
     }
   }
-  return String(newStr).replaceAll(',', '');
+  return newStr;
 }
-
 /**
  * Returns the nearest largest integer consisting of the digits of the given positive integer.
  * If there is no such number, it returns the original number.
